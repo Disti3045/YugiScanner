@@ -7,6 +7,7 @@ function doPost(e) {
   var espansione = dati.espansione;
   var lingua = dati.lingua;
   var condizione = dati.condizione;
+  var rarita = dati.rarita;
 
   var datiFoglio = sheet.getDataRange().getValues();
   var cartaTrovata = false;
@@ -14,12 +15,10 @@ function doPost(e) {
   for (var i = 1; i < datiFoglio.length; i++) {
     var rigaCorrente = datiFoglio[i];
 
-    if (rigaCorrente[0] === nome && rigaCorrente[1] === espansione && rigaCorrente[2] === lingua && rigaCorrente[3] === condizione) {
+    if (rigaCorrente[0] === nome && rigaCorrente[1] === espansione && rigaCorrente[2] === lingua && rigaCorrente[3] === condizione && rigaCorrente[4] === rarita) {
       
-      var quantitaAttuale = Number(rigaCorrente[4]);
-      var nuovaQuantita = quantitaAttuale + 1;
-      
-      sheet.getRange(i + 1, 5).setValue(nuovaQuantita);
+      var quantitaAttuale = Number(rigaCorrente[5]);
+      sheet.getRange(i + 1, 6).setValue(quantitaAttuale + 1);
       
       cartaTrovata = true;
       break;
@@ -27,7 +26,7 @@ function doPost(e) {
   }
 
   if (!cartaTrovata) {
-    sheet.appendRow([nome, espansione, lingua, condizione, 1]);
+    sheet.appendRow([nome, espansione, lingua, condizione, rarita, 1]);
   }
 
   return ContentService.createTextOutput("Successo").setMimeType(ContentService.MimeType.TEXT);
